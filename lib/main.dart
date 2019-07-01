@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pkg/Search.dart';
+import 'package:flutter_app/pages/home.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,16 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-     home:Scaffold(
-      appBar: AppBar(
-        title: Search(),
-       backgroundColor: Colors.white,
-
-      ),
-      body: Center(
-        child: Text("This is new route"),
-      ),
-    )
+     home:Home()
     );
   }
 }
