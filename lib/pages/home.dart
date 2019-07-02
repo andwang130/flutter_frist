@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/Search.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
+var tabs=[
+    Tab(text: "综合",),
+    Tab(text: "为你推荐",),
+    Tab(text: "女装",),
+    Tab(text: "天猫国际",),
+    Tab(text: "家居加装",),
+    Tab(text: "数码家店",),
+    Tab(text: "母婴",),
+    Tab(text: "食品",),
+    Tab(text: "鞋包配饰",),
+    Tab(text: "美妆个护",),
+    Tab(text: "男装",),
+    Tab(text: "内衣",),
+    Tab(text: "运动户外",),
 
+];
 var imgaes = [
   "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=399944689,1746572361&fm=26&gp=1.jpg",
   "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4214474476,1941437198&fm=26&gp=0.jpg",
@@ -12,20 +27,33 @@ class Home extends StatefulWidget {
   State<StatefulWidget> createState() => _Home();
 }
 
-class _Home extends State<Home> {
+class _Home extends State<Home> with SingleTickerProviderStateMixin {
+  TabController mcontroller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mcontroller=TabController(length: tabs.length,vsync: this);
+   mcontroller.addListener(() =>onTabchange());
+  }
+  onTabchange(){
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Color.fromRGBO(	240,248,255, 1),
       appBar: AppBar(
           title: HomeSearch(),
           backgroundColor: Color.fromRGBO(248, 248, 255, 1.0)),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           HomeSwiper(),
           Padding(
 
             child: Container(
+              color: Colors.white,
+              padding: EdgeInsets.only(top: 10),
               height: 80,
               child: Row(
                 children: <Widget>[
@@ -72,12 +100,15 @@ class _Home extends State<Home> {
                 ],
               ),
             ),
-            padding: EdgeInsets.only(top: 15),
+            padding: EdgeInsets.only(top: 0.5),
           ),
+
           Padding(
               child: Container(
+
                 decoration:BoxDecoration(
-                    border:Border(bottom:BorderSide(color:Colors.grey,width: 1) )
+                    border:Border(bottom:BorderSide(color:Colors.grey,width: 1) ),
+                  color: Colors.white,
                 ),
               padding: EdgeInsets.only(bottom: 10),
               child: Row(
@@ -146,13 +177,19 @@ class _Home extends State<Home> {
               ),
               height: 100,
             ),
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 10),
           ),
+
           Padding(
             child: Container(
-              height: 130,
+
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color:Colors.grey,width: 1 )),
+                  color: Colors.white
+              ),
+              height: 100,
               child: Row(children: <Widget>[
-              Container(
+                Container(
                 width: 100,
                 decoration:BoxDecoration(
                     border:Border(right:BorderSide(color:Colors.grey,width: 1))
@@ -212,8 +249,35 @@ class _Home extends State<Home> {
 
               ],),
             ),
-            padding: EdgeInsets.only(top: 10),
-          )
+            padding: EdgeInsets.only(top: 0.5),
+          ),
+
+          Padding(child: Text(" ~~好券直播~~",textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 30,
+              color: Colors.deepOrange,
+          ),),
+            padding: EdgeInsets.only(top: 5),),
+
+          Padding(
+            padding: EdgeInsets.only(top: 1),
+            child:Container(
+              decoration:BoxDecoration(
+                border:Border(bottom:
+                BorderSide(color:Colors.white,width: 1),top:BorderSide(color:Colors.white,width: 1) )
+              ),
+              child: TabBar(
+                labelColor:Colors.black,
+                indicatorWeight: 1,
+                indicatorSize:TabBarIndicatorSize.tab,
+                isScrollable:true,
+                tabs:tabs,
+              controller: this.mcontroller,
+            )
+            ),
+          ),
+
+        ViewList()
         ],
       ),
     );
@@ -228,7 +292,7 @@ class HomeSwiper extends StatelessWidget {
       height: 180,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          print(index);
+
           return new Image.network(
             imgaes[index],
             fit: BoxFit.fill,
@@ -243,5 +307,84 @@ class HomeSwiper extends StatelessWidget {
         pagination: SwiperPagination(),
       ),
     );
+  }
+}
+class ViewList extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+
+      child: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+     Card(
+       child: Column(
+         children: <Widget>[
+           Row(children: <Widget>[
+             Expanded(
+
+               child:Image.network("http://gd1.alicdn.com/imgextra/i1/397990402/O1CN01CdNfpA1Eq9l1Ou5oi_!!397990402.png_400x400.jpg"),
+               flex: 1,),
+
+             Expanded(
+                 flex: 3,
+               child: Column(crossAxisAlignment:CrossAxisAlignment.start,children: <Widget>[
+                 Text("去脂肪粒汗管油脂粒祛除神器眼部瘤脂肪粒去除针专用膏精华液眼霜",
+                   softWrap:true,
+                   maxLines:3,
+                   overflow:TextOverflow.ellipsis),
+                 Row(children: <Widget>[
+                   Expanded(flex:1,child:  Text("优惠券"),),
+                   Expanded(flex:1,child:  Text("销量",textAlign: TextAlign.right,),),
+                 ],),
+                 Text("价格",textAlign: TextAlign.left,)
+
+           ],
+           ),
+           )
+
+           ],),
+           FlatButton(
+             color: Colors.blue,textColor: Colors.white,child: Text("按钮"),)
+         ],
+       ),
+     ),
+    Card(
+            child: Column(
+              children: <Widget>[
+                Row(children: <Widget>[
+                  Expanded(
+
+                    child:Image.network("http://gd1.alicdn.com/imgextra/i1/397990402/O1CN01CdNfpA1Eq9l1Ou5oi_!!397990402.png_400x400.jpg"),
+                    flex: 1,),
+
+                  Expanded(
+                    flex: 3,
+                    child: Column(crossAxisAlignment:CrossAxisAlignment.start,children: <Widget>[
+                      Text("去脂肪粒汗管油脂粒祛除神器眼部瘤脂肪粒去除针专用膏精华液眼霜",
+                          softWrap:true,
+                          maxLines:3,
+                          overflow:TextOverflow.ellipsis),
+                      Row(children: <Widget>[
+                        Expanded(flex:1,child:  Text("优惠券"),),
+                        Expanded(flex:1,child:  Text("销量",textAlign: TextAlign.right,),),
+                      ],),
+                      Text("价格",textAlign: TextAlign.left,)
+
+                    ],
+                    ),
+                  )
+
+                ],),
+                MaterialButton(color:Colors.deepOrangeAccent,child: Text("按钮"),)
+              ],
+            ),
+          )
+
+    ],
+    ) ,
+    );
+
   }
 }
