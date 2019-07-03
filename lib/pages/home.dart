@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/Search.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
+import 'package:flutter_app/pkg/shopcard.dart';
 var tabs=[
     Tab(text: "综合",),
     Tab(text: "为你推荐",),
@@ -280,6 +281,17 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
         ViewList()
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+            Icon(Icons.home),
+            Icon(Icons.home),
+            Icon(Icons.home),
+      ],
+        ),
+      )
+
     );
   }
 }
@@ -318,69 +330,10 @@ class ViewList extends StatelessWidget{
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
-     Card(
-       child: Column(
-         children: <Widget>[
-           Row(children: <Widget>[
-             Expanded(
+          ShopCard(),
+          ShopCard(),
 
-               child:Image.network("http://gd1.alicdn.com/imgextra/i1/397990402/O1CN01CdNfpA1Eq9l1Ou5oi_!!397990402.png_400x400.jpg"),
-               flex: 1,),
 
-             Expanded(
-                 flex: 3,
-               child: Column(crossAxisAlignment:CrossAxisAlignment.start,children: <Widget>[
-                 Text("去脂肪粒汗管油脂粒祛除神器眼部瘤脂肪粒去除针专用膏精华液眼霜",
-                   softWrap:true,
-                   maxLines:3,
-                   overflow:TextOverflow.ellipsis),
-                 Row(children: <Widget>[
-                   Expanded(flex:1,child:  Text("优惠券"),),
-                   Expanded(flex:1,child:  Text("销量",textAlign: TextAlign.right,),),
-                 ],),
-                 Text("价格",textAlign: TextAlign.left,)
-
-           ],
-           ),
-           )
-
-           ],),
-           FlatButton(
-             color: Colors.blue,textColor: Colors.white,child: Text("按钮"),)
-         ],
-       ),
-     ),
-    Card(
-            child: Column(
-              children: <Widget>[
-                Row(children: <Widget>[
-                  Expanded(
-
-                    child:Image.network("http://gd1.alicdn.com/imgextra/i1/397990402/O1CN01CdNfpA1Eq9l1Ou5oi_!!397990402.png_400x400.jpg"),
-                    flex: 1,),
-
-                  Expanded(
-                    flex: 3,
-                    child: Column(crossAxisAlignment:CrossAxisAlignment.start,children: <Widget>[
-                      Text("去脂肪粒汗管油脂粒祛除神器眼部瘤脂肪粒去除针专用膏精华液眼霜",
-                          softWrap:true,
-                          maxLines:3,
-                          overflow:TextOverflow.ellipsis),
-                      Row(children: <Widget>[
-                        Expanded(flex:1,child:  Text("优惠券"),),
-                        Expanded(flex:1,child:  Text("销量",textAlign: TextAlign.right,),),
-                      ],),
-                      Text("价格",textAlign: TextAlign.left,)
-
-                    ],
-                    ),
-                  )
-
-                ],),
-                MaterialButton(color:Colors.deepOrangeAccent,child: Text("按钮"),)
-              ],
-            ),
-          )
 
     ],
     ) ,
