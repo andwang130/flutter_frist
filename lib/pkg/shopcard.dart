@@ -121,8 +121,6 @@ Widget couponIcon(int num){
 Widget ShopButton(){
   return   Container(
 
-
-
     alignment: Alignment.topRight,
     child: FlatButton.icon(
       shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
