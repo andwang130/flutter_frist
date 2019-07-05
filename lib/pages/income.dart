@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 class Income extends StatefulWidget {
   State<StatefulWidget> createState() => _Income();
 }
-
+var datas=[
+  {"deal":1,"yufu":9.12,"jiesuan":26.33},
+  {"deal":2,"yufu":12.12,"jiesuan":24.33},
+  {"deal":3,"yufu":13.12,"jiesuan":23.33},
+  {"deal":5,"yufu":19.12,"jiesuan":41.33},
+];
+var fontType=TextStyle(fontSize: 15,color: Colors.grey);
 class _Income extends State<Income> {
   var index=1;
+  var deal=datas[0]["deal"];
+  var yufu=datas[0]["yufu"];
+  var jiesuan=datas[0]["jiesuan"];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -151,7 +160,57 @@ class _Income extends State<Income> {
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Tabbr(this.index,this.tabonclick),
-                )
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+              child:Container(
+                height: 160,
+                padding: EdgeInsets.only(left: 40,right: 25,top: 20,bottom: 20),
+                child: Column(
+
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(child:  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("付款订单(笔)",style: fontType,),
+
+                          Text("${this.deal}"),
+                        ],) ,),
+                        Expanded(child:  Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                          Text("付款预估收入(元)",style: fontType),
+                          Text("${this.yufu}"),
+                        ],) ,),
+
+                      ],
+                    ),
+                  ),
+
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(child:  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("结算预估收入(元)",style: fontType),
+                          Text("${this.jiesuan}"),
+                        ],) ,),
+                        Expanded(child:  Column(children: <Widget>[
+
+                        ],) ,),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+                 ))
 
 
               ],
@@ -164,6 +223,10 @@ class _Income extends State<Income> {
   void tabonclick(int index){
     setState(() {
       this.index=index;
+      var data=datas[index-1];
+      this.deal=data["deal"];
+      this.yufu=data["yufu"];
+      this.jiesuan=data["jiesuan"];
     });
   }
 }
