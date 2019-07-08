@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pkg/shopcard.dart';
 class Shop extends StatefulWidget{
   State<StatefulWidget> createState()=>_Shop();
 }
@@ -18,7 +19,7 @@ class _Shop extends State<Shop>{
           ),
           title: Text("宝贝信息",style: TextStyle(color: Colors.black),),centerTitle: true,backgroundColor: Colors.white,),
         ),
-      body:Column(children: <Widget>[
+      body:ListView(children: <Widget>[
         Container(
           color: Colors.redAccent,
           height: 300,
@@ -103,8 +104,35 @@ class _Shop extends State<Shop>{
           ],
         )
           ),
+       Padding(
+         padding: EdgeInsets.only(top: 10,bottom: 10),
+         child:Container(child:Text("~~相似商品~~",textAlign: TextAlign.center,style: TextStyle(
+         fontSize: 30,
+         color: Colors.deepOrange,
+       )),),),
+        Container(
+          child: Column(children: <Widget>[
+            ShopCard(),
+            ShopCard(),
+            ShopCard(),
+            ShopCard(),
+            ShopCard(),
+            ShopCard(),
+            ShopCard(),
+            ShopCard(),
+          ],),),
+
 
       ],),
+      bottomNavigationBar:  Container(
+
+          height: 50,
+          child: FlatButton(
+            color: Colors.deepOrange,
+            child: Text("立即分享"),onPressed: (){
+
+          },)
+      ) ,
 
     );
   }

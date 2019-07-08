@@ -27,120 +27,125 @@ class Index extends StatefulWidget {
 }
 class _Index extends State<Index> with SingleTickerProviderStateMixin{
   TabController mcontroller;
+  ScrollController scrollController;
+  TabController tabcontroller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     mcontroller=TabController(length: tabs.length,vsync: this);
+    tabcontroller=mcontroller;
     mcontroller.addListener(() =>onTabchange());
   }
   onTabchange(){
   }
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return  ListView(
-      children: <Widget>[
-        HomeSwiper(),
-        Padding(
+  List<Widget> loadTabview(){
+   var  wlist= List<Widget>();
+    for (var i in tabs){
+      wlist.add(ViewList());
+    }
+    return wlist;
+  }
+  Widget stickytabr(){
+    return NestedScrollView(
 
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(top: 10),
-            height: 80,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          child: Image.network(
-                              "https://img.alicdn.com/imgextra/i4/720077060/O1CN013COnrY221WlVTHNiN_!!720077060.png")),
-                      Text("转换链接")
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          child: Image.network(
-                              "https://img.alicdn.com/imgextra/i1/720077060/O1CN01ttbCAp221WlU72Njt_!!720077060.png")),
-                      Text("新手上路")
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          child: Image.network(
-                              "https://img.alicdn.com/imgextra/i3/720077060/O1CN01yc1ss6221WlW4pnMv_!!720077060.png")),
-                      Text("活动")
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          child: Image.network(
-                              "https://img.alicdn.com/imgextra/i3/720077060/O1CN01GTgm9d221WlU71ymo_!!720077060.png")),
-                      Text("收藏")
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          padding: EdgeInsets.only(top: 0.5),
-        ),
+      controller:this.scrollController,
+      headerSliverBuilder: (BuildContext contenx, bool innerBoxIsScrolled){
+        return <Widget>[
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            expandedHeight: 560,
+            backgroundColor: Color.fromRGBO(	240,248,255, 1),
+            flexibleSpace:FlexibleSpaceBar(background:_flexibleSpace(), collapseMode: CollapseMode.pin,) ,
+            bottom:TabBar(
+              labelColor:Colors.black,
+              indicatorWeight: 1,
+              indicatorSize:TabBarIndicatorSize.tab,
+              isScrollable:true,
+              tabs:tabs,
+              controller: this.mcontroller,
+            ) ,
+          )];
+      },
+    body:TabBarView(controller: this.tabcontroller,children:this.loadTabview(),)
+    ,);
+  }
+Widget _flexibleSpace(){
+  return  ListView(
+    children: <Widget>[
+      HomeSwiper(),
+      Padding(
 
-        Padding(
-          child: Container(
-
-            decoration:BoxDecoration(
-              border:Border(bottom:BorderSide(color:Colors.grey,width: 1) ),
-              color: Colors.white,
-            ),
-            padding: EdgeInsets.only(bottom: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border:Border(right:BorderSide(color:Colors.grey,width: 1) )
-                    ),
-                    child:Row(children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              "热卖",
-                              style: TextStyle(
-                                  fontSize: 35, fontWeight: FontWeight.w700),
-                            ),
-                            Text(
-                              "精选好货",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w100),
-                            )
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(top: 10),
+          height: 80,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
                         child: Image.network(
-                            "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
-                      )
-                    ]),
-                  ),
+                            "https://img.alicdn.com/imgextra/i4/720077060/O1CN013COnrY221WlVTHNiN_!!720077060.png")),
+                    Text("转换链接")
+                  ],
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Container(child:Row(children: <Widget>[
+              ),
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                        child: Image.network(
+                            "https://img.alicdn.com/imgextra/i1/720077060/O1CN01ttbCAp221WlU72Njt_!!720077060.png")),
+                    Text("新手上路")
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                        child: Image.network(
+                            "https://img.alicdn.com/imgextra/i3/720077060/O1CN01yc1ss6221WlW4pnMv_!!720077060.png")),
+                    Text("活动")
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                        child: Image.network(
+                            "https://img.alicdn.com/imgextra/i3/720077060/O1CN01GTgm9d221WlU71ymo_!!720077060.png")),
+                    Text("收藏")
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        padding: EdgeInsets.only(top: 0.5),
+      ),
+
+      Padding(
+        child: Container(
+
+          decoration:BoxDecoration(
+            border:Border(bottom:BorderSide(color:Colors.grey,width: 1) ),
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                      border:Border(right:BorderSide(color:Colors.grey,width: 1) )
+                  ),
+                  child:Row(children: <Widget>[
                     Expanded(
                       flex: 1,
                       child: Column(
@@ -164,115 +169,130 @@ class _Index extends State<Index> with SingleTickerProviderStateMixin{
                           "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
                     )
                   ]),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(child:Row(children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "热卖",
+                          style: TextStyle(
+                              fontSize: 35, fontWeight: FontWeight.w700),
+                        ),
+                        Text(
+                          "精选好货",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w100),
+                        )
+                      ],
+                    ),
                   ),
+                  Expanded(
+                    flex: 1,
+                    child: Image.network(
+                        "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
+                  )
+                ]),
                 ),
-              ],
-            ),
-            height: 100,
+              ),
+            ],
           ),
-          padding: EdgeInsets.only(top: 10),
+          height: 100,
         ),
+        padding: EdgeInsets.only(top: 10),
+      ),
 
-        Padding(
-          child: Container(
+      Padding(
+        child: Container(
 
-            decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color:Colors.grey,width: 1 )),
-                color: Colors.white
-            ),
-            height: 100,
-            child: Row(children: <Widget>[
-              Container(
-                width: 100,
-                decoration:BoxDecoration(
-                    border:Border(right:BorderSide(color:Colors.grey,width: 1))
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Text("品牌榜"),
-                    Expanded(
-                        child:Image.network("https://img.alicdn.com/imgextra/i1/720077060/O1CN01e71NJU221WlWAIR2S_!!720077060.jpg")
-                    )
-
-                  ],
-                ),
-              ),
-              Container(
-                width: 100,
-                decoration:BoxDecoration(
-                    border:Border(right:BorderSide(color:Colors.grey,width: 1))
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Text("母婴榜"),
-                    Expanded(
-                        child:Image.network("https://img.alicdn.com/imgextra/i4/720077060/O1CN01EJeRHO221WlXIucNv_!!720077060.jpg",)
-                    )
-
-                  ],
-                ),
-              ),
-              Container(
-                width: 100,
-                decoration:BoxDecoration(
-                    border:Border(right:BorderSide(color:Colors.grey,width: 1))
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Text("高佣榜"),
-                    Expanded(
-                        child:Image.network("https://img.alicdn.com/imgextra/i3/720077060/O1CN01oY0cy3221WlU5di1N_!!720077060.jpg")
-                    )
-
-                  ],
-                ),
-              ),
-              Container(
-                width: 100,
-                child: Column(
-                  children: <Widget>[
-                    Text("大额券"),
-                    Expanded(
-                        child:Image.network("https://img.alicdn.com/imgextra/i4/720077060/O1CN015F0h4G221WlYy7Xsi_!!720077060.jpg")
-                    )
-
-                  ],
-                ),
-              ),
-
-            ],),
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color:Colors.grey,width: 1 )),
+              color: Colors.white
           ),
-          padding: EdgeInsets.only(top: 0.5),
-        ),
-
-        Padding(child: Text(" ~~好券直播~~",textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 30,
-            color: Colors.deepOrange,
-          ),),
-          padding: EdgeInsets.only(top: 5),),
-
-        Padding(
-          padding: EdgeInsets.only(top: 1),
-          child:Container(
+          height: 100,
+          child: Row(children: <Widget>[
+            Container(
+              width: 100,
               decoration:BoxDecoration(
-                  border:Border(bottom:
-                  BorderSide(color:Colors.white,width: 1),top:BorderSide(color:Colors.white,width: 1) )
+                  border:Border(right:BorderSide(color:Colors.grey,width: 1))
               ),
-              child: TabBar(
-                labelColor:Colors.black,
-                indicatorWeight: 1,
-                indicatorSize:TabBarIndicatorSize.tab,
-                isScrollable:true,
-                tabs:tabs,
-                controller: this.mcontroller,
-              )
-          ),
-        ),
+              child: Column(
+                children: <Widget>[
+                  Text("品牌榜"),
+                  Expanded(
+                      child:Image.network("https://img.alicdn.com/imgextra/i1/720077060/O1CN01e71NJU221WlWAIR2S_!!720077060.jpg")
+                  )
 
-        ViewList()
-      ],
-    );
+                ],
+              ),
+            ),
+            Container(
+              width: 100,
+              decoration:BoxDecoration(
+                  border:Border(right:BorderSide(color:Colors.grey,width: 1))
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text("母婴榜"),
+                  Expanded(
+                      child:Image.network("https://img.alicdn.com/imgextra/i4/720077060/O1CN01EJeRHO221WlXIucNv_!!720077060.jpg",)
+                  )
+
+                ],
+              ),
+            ),
+            Container(
+              width: 100,
+              decoration:BoxDecoration(
+                  border:Border(right:BorderSide(color:Colors.grey,width: 1))
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text("高佣榜"),
+                  Expanded(
+                      child:Image.network("https://img.alicdn.com/imgextra/i3/720077060/O1CN01oY0cy3221WlU5di1N_!!720077060.jpg")
+                  )
+
+                ],
+              ),
+            ),
+            Container(
+              width: 100,
+              child: Column(
+                children: <Widget>[
+                  Text("大额券"),
+                  Expanded(
+                      child:Image.network("https://img.alicdn.com/imgextra/i4/720077060/O1CN015F0h4G221WlYy7Xsi_!!720077060.jpg")
+                  )
+
+                ],
+              ),
+            ),
+
+          ],),
+        ),
+        padding: EdgeInsets.only(top: 0.5),
+      ),
+
+      Padding(child: Text(" ~~好券直播~~",textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 30,
+          color: Colors.deepOrange,
+        ),),
+        padding: EdgeInsets.only(top: 5),),
+
+    ],
+  );
+}
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return stickytabr();
+
   }
 }
 class HomeSwiper extends StatelessWidget {
@@ -311,7 +331,17 @@ class ViewList extends StatelessWidget{
         children: <Widget>[
           ShopCard(),
           ShopCard(),
-
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
+          ShopCard(),
 
 
         ],
@@ -320,3 +350,6 @@ class ViewList extends StatelessWidget{
 
   }
 }
+
+
+
