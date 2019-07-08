@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app/pages/shop.dart';
 class ShopCard extends StatelessWidget {
   String title = "去脂肪粒油脂粒汗管粒消除眼部脸部瘤专用膏精华素男女"; //标题
   String image; //图片
@@ -14,7 +14,13 @@ class ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Card(
+    return
+      GestureDetector(
+        onTap: (){
+          Navigator.push(context,MaterialPageRoute(builder: (context) => new Shop()));
+        },
+    
+        child:Card(
       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
@@ -93,7 +99,9 @@ class ShopCard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+      );
+
   }
 }
 Widget couponIcon(int num){
