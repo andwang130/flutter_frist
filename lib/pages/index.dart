@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
-import 'package:flutter_app/pkg/shopcard.dart';
+import 'package:flutter_app/pkg/viewlist.dart';
+import 'package:flutter_app/pages/shoplist.dart';
 var tabs=[
   Tab(text: "综合",),
   Tab(text: "为你推荐",),
@@ -72,7 +73,7 @@ class _Index extends State<Index> with SingleTickerProviderStateMixin{
     ,);
   }
 Widget _flexibleSpace(){
-  return  ListView(
+  return  Column(
     children: <Widget>[
       HomeSwiper(),
       Padding(
@@ -141,64 +142,70 @@ Widget _flexibleSpace(){
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                      border:Border(right:BorderSide(color:Colors.grey,width: 1) )
-                  ),
-                  child:Row(children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "热卖",
-                            style: TextStyle(
-                                fontSize: 35, fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            "精选好货",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w100),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Image.network(
-                          "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
-                    )
-                  ]),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(child:Row(children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "热卖",
-                          style: TextStyle(
-                              fontSize: 35, fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          "精选好货",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w100),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Image.network(
-                        "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
-                  )
-                ]),
-                ),
-              ),
+                child: GestureDetector(
+               child: Container(
+                 decoration: BoxDecoration(
+                     border:Border(right:BorderSide(color:Colors.grey,width: 1) )
+                 ),
+                 child:Row(children: <Widget>[
+                   Expanded(
+                     flex: 1,
+                     child: Column(
+                       children: <Widget>[
+                         Text(
+                           "热卖",
+                           style: TextStyle(
+                               fontSize: 35, fontWeight: FontWeight.w700),
+                         ),
+                         Text(
+                           "精选好货",
+                           style: TextStyle(
+                               fontSize: 16, fontWeight: FontWeight.w100),
+                         )
+                       ],
+                     ),
+                   ),
+                   Expanded(
+                     flex: 1,
+                     child: Image.network(
+                         "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
+                   )
+                 ]),
+               ),
+                onTap: (){
+               Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList()));
+             },),),
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+               child: Container(child:Row(children: <Widget>[
+                 Expanded(
+                   flex: 1,
+                   child: Column(
+                     children: <Widget>[
+                       Text(
+                         "热卖",
+                         style: TextStyle(
+                             fontSize: 35, fontWeight: FontWeight.w700),
+                       ),
+                       Text(
+                         "精选好货",
+                         style: TextStyle(
+                             fontSize: 16, fontWeight: FontWeight.w100),
+                       )
+                     ],
+                   ),
+                 ),
+                 Expanded(
+                   flex: 1,
+                   child: Image.network(
+                       "https://img.alicdn.com/imgextra/i3/720077060/O1CN01WQ8rV1221WlVpWrQ1_!!720077060.jpg"),
+                 )
+               ]),
+               ),
+             ),
+  )
+
             ],
           ),
           height: 100,
@@ -320,36 +327,7 @@ class HomeSwiper extends StatelessWidget {
     );
   }
 }
-class ViewList extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
 
-      child: ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-          ShopCard(),
-
-
-        ],
-      ) ,
-    );
-
-  }
-}
 
 
 
