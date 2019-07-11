@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/deal.dart';
 var src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562322911498&di=3052621d553ba61cc43d9bb850367a9b&imgtype=0&src=http%3A%2F%2Fimages6.fanpop.com%2Fimage%2Fphotos%2F35100000%2FFluttershy-my-little-pony-friendship-is-magic-35157899-1400-1850.jpg";
 var myfontType=TextStyle(fontSize: 20,color: Colors.black,fontWeight:FontWeight.w500 );
 var bottomline=BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey,width: 0.5)));
@@ -63,13 +64,14 @@ class _Myself extends State<Myself>{
           height: 146,
           child:Column(
           children: <Widget>[
-
-
-
             Container(
               decoration:bottomline,
               child:TitleButton(url:"https://img.alicdn.com/imgextra/i1/720077060/O1CN01vGKiTL221WlXMd9wW_!!720077060.png",
-                  text:"订单查询"),
+                  text:"订单查询",
+                ontab: (){
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => new Deal()));
+                },
+              ),
 
             ),
             Container(
@@ -170,7 +172,8 @@ class TitleButton extends StatelessWidget{
 
   String url;
   String text;
-  TitleButton({this.url,this.text}){
+  Function ontab;
+  TitleButton({this.url,this.text,this.ontab}){
 
   }
   @override
@@ -179,6 +182,7 @@ class TitleButton extends StatelessWidget{
     return FlatButton(
 
     onPressed: (){
+      ontab();
     },
     child:Row(
     mainAxisAlignment:MainAxisAlignment.start ,
