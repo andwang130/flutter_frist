@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/pages/login.dart';
+import 'package:flutter_app/pages/register.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-     home:Login()
+     home:Register()
     );
   }
 }

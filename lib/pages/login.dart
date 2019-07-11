@@ -18,14 +18,20 @@ class _Login extends State<Login>{
     this.pswdController=TextEditingController();
     this.userController.addListener((){
       this.setState(() {
-        this.userError=0;
+        if(this.userController.text!="") {
+          this.userError = 0;
+        }
         this.user=this.userController.text;
       });
 
     });
     this.pswdController.addListener((){
      this.setState(() {
-        this.pswdError=0;
+        if(this.pswdController.text!="")
+          {
+            print(this.pswdController.text);
+            this.pswdError=0;
+          }
         this.pasd=this.pswdController.text;
       });
     });
@@ -34,7 +40,12 @@ class _Login extends State<Login>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppbarH35(context, "登录"),
+      appBar: PreferredSize(
+          preferredSize:Size.fromHeight(35),
+          child:AppBar(key:Key("2"),
+            title: Text("登录",style: TextStyle(color: Colors.black),),
+            centerTitle: true,
+            backgroundColor: Colors.white,),),
       body: Column(children: <Widget>[
         Padding(padding: EdgeInsets.only(top: 150,left: 20,right: 20),
         child: Container(
