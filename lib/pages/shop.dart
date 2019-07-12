@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/shopcard.dart';
+import 'package:flutter_app/pkg/back.dart';
 class Shop extends StatefulWidget{
   State<StatefulWidget> createState()=>_Shop();
+
 }
 class _Shop extends State<Shop>{
   @override
@@ -12,11 +14,7 @@ class _Shop extends State<Shop>{
       appBar: PreferredSize(
         preferredSize:Size.fromHeight(35),
         child:AppBar(key:Key("2"),
-          leading:GestureDetector(child:Icon(Icons.arrow_back_ios,color: Colors.black54,),
-            onTap: (){
-            Navigator.pop(context);
-            },
-          ),
+          leading:Back(context),
           title: Text("宝贝信息",style: TextStyle(color: Colors.black),),centerTitle: true,backgroundColor: Colors.white,),
         ),
       body:ListView(children: <Widget>[
