@@ -4,6 +4,7 @@ import 'package:flutter_app/pages/login.dart';
 import 'package:flutter_app/pages/register.dart';
 import 'package:flutter_app/pages/search.dart';
 import 'package:flutter_app/pages/searchinfo.dart';
+import 'package:flutter_app/pkg/downlist.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-     home:SearchInfo("去脂肪粒神器")
+     home:DownList()
     );
   }
 }
