@@ -72,30 +72,24 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
       ],),
       Container(
         padding: EdgeInsets.only(top: 10,left: 5,right: 5),
-        height: 200,
-        child:GridView(
-
-      gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          childAspectRatio:2,
-          mainAxisSpacing:5,
-          crossAxisSpacing:5,
-      ) ,
+        child:Wrap(
+            spacing:8,
+            runSpacing:1,
           children: <Widget>[
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒ssdsadadadadas"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-            Tagbuttion("去脂肪粒"),
-
-        ],) ,
+            Chip(label:Text("去脂肪粒神器"),),
+            Chip(label:Text("去脂肪粒神器去脂肪粒神器"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+            Chip(label:Text("去脂肪粒"),),
+          ],
+        ) ,
       )
       ],
     )  ,)

@@ -8,6 +8,7 @@ class _DownList extends State<DownList> with SingleTickerProviderStateMixin {
   bool ishow=false;
   AnimationController _controller;
   Animation<double> _animation;
+  GlobalKey _keyFilter = GlobalKey();
   @override
   void initState() {
     // TODO: implement initState
@@ -31,6 +32,8 @@ class _DownList extends State<DownList> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+
     return  Stack(children: <Widget>[
       Column(
         children: <Widget>[
@@ -50,8 +53,9 @@ class _DownList extends State<DownList> with SingleTickerProviderStateMixin {
 
       ),
       Positioned(
+
         width: MediaQuery.of(context).size.width,
-        top: 120,
+        top: 100,
         height: this._animation==null?0:this._animation.value,
         child: Column(
           children: <Widget>[

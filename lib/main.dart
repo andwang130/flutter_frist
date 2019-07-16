@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-     home:SearchInfo("去脂肪粒")
+     home:Search()
     );
   }
 }

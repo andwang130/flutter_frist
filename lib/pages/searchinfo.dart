@@ -14,8 +14,9 @@ class SearchInfo extends StatefulWidget{
 
 
 }
-class _SearchInfo extends State<SearchInfo>{
-
+class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
+  AnimationController animController;
+  Animation<double> animatable;
   bool istiamo,isbaoyou,isxb,isyk,ishp,iszh,isjp;
   String pircestart,pircend,commstart,commenn;
   String _searkey;
@@ -31,8 +32,9 @@ class _SearchInfo extends State<SearchInfo>{
   void initState() {
     // TODO: implement setState
     super.initState();
+    this.animController = new AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     this._searkey=widget.serkey;
-    this.selectnam="销量";
+    this.selectnam="默认排序";
     this.isshow=false;
     this.isjp=false;
     this.istiamo=false;
@@ -41,11 +43,49 @@ class _SearchInfo extends State<SearchInfo>{
     this.isxb=false;
     this.isyk=false;
     this.isbaoyou=false;
-
   }
 
+  Widget chekeItme(String name){
+   return GestureDetector(
+     onTap: (){
+       this.selectnam=name;
+       this.showDropDownItemWidget();
+     },
+      child: Container(
+        height: 40,
+        padding: EdgeInsets.only(left: 10,right: 20),
+        decoration:BoxDecoration(
+          border: Border(bottom: BorderSide(width: 0.2,color: Colors.grey))
+        ) ,
+        child: Row(
+          children: <Widget>[
+            Expanded(child: Text(name,style: TextStyle(color: this.selectnam==name?Colors.red:Colors.black),)),
+            Expanded(
+                child:Align(
+                  alignment: Alignment.centerRight,
+                  child:this.selectnam==name?Icon(Icons.check,color: Colors.red,):null,))
+
+          ],
+        ),
+      ),
+    );
+  }
   void openedge(BuildContext context){
     Scaffold.of(context).openDrawer();
+  }
+  void showDropDownItemWidget(){
+
+    this.isshow=!this.isshow;
+    this.animatable = new Tween(begin: 0.0, end: 200.0).animate(this.animController)..addListener(() {
+      //这行如果不写，没有动画效果
+      this.setState(() {});
+    });
+    if(this.animatable.status==AnimationStatus.completed){
+      this.animController.reverse();
+    }else{
+      this.animController.forward();
+    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -94,11 +134,12 @@ class _SearchInfo extends State<SearchInfo>{
 
                   Expanded(child:Align(
                     child:GestureDetector(
+                      onTap: this.showDropDownItemWidget,
                     child:Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "默认排序",
+                          this.selectnam,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.red,
@@ -145,8 +186,28 @@ class _SearchInfo extends State<SearchInfo>{
                 ],
               ),),
             SizedBox(height: 8,),
+            Expanded(child:    Padding(child: ViewList() ,padding: EdgeInsets.only(top: 1),),)
         ],),
-      Padding(child: ViewList() ,padding: EdgeInsets.only(top: 45),)
+
+
+          Positioned(
+            top: 35,
+            width: MediaQuery.of(context).size.width,
+            height: this.animatable==null?0:this.animatable.value,
+            child:Container(
+              color: Colors.white,
+
+              child: ListView(
+                children: <Widget>[
+                  chekeItme("默认排序"),
+                  chekeItme("销量从高到低"),
+                  chekeItme("收入比率从高到低"),
+                  chekeItme("价格从高到低"),
+                  chekeItme("价格从低到高"),
+                ],
+              ),
+            ),
+          ),
 
 
         ],
