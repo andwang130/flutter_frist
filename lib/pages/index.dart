@@ -54,6 +54,7 @@ class _Index extends State<Index> with SingleTickerProviderStateMixin{
       headerSliverBuilder: (BuildContext contenx, bool innerBoxIsScrolled){
         return <Widget>[
           SliverAppBar(
+            automaticallyImplyLeading: false,
             pinned: true,
             floating: true,
             expandedHeight: 560,

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pkg/appbarH35.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_app/config.dart';
+import 'package:flutter_app/pages/home.dart';
+import 'package:flutter_app/pkg/mydialog.dart';
+import 'package:flutter_app/pkg/mybottomShet.dart';
+
 class Login extends StatefulWidget{
   State<StatefulWidget> createState()=>_Login();
 }
 class _Login extends State<Login>{
-
   int userError=0;
   int pswdError=0;
   String pasd,user;
   TextEditingController userController;
   TextEditingController pswdController;
+  final bottomsheetKey=GlobalKey<ScaffoldState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -29,7 +34,7 @@ class _Login extends State<Login>{
      this.setState(() {
         if(this.pswdController.text!="")
           {
-            print(this.pswdController.text);
+
             this.pswdError=0;
           }
         this.pasd=this.pswdController.text;
@@ -37,9 +42,17 @@ class _Login extends State<Login>{
     });
   }
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    this.userController.dispose();
+    this.pswdController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      key: this.bottomsheetKey,
       appBar: PreferredSize(
           preferredSize:Size.fromHeight(35),
           child:AppBar(key:Key("2"),
@@ -67,8 +80,10 @@ class _Login extends State<Login>{
             child: Container(
               height: 100,
               child:TextField(
+
                 controller: this.pswdController,
                 decoration: InputDecoration(
+
 
                   hintText: "输入密码",
                     errorText: this.pswdError==0?null:"请输入密码",
@@ -85,18 +100,9 @@ class _Login extends State<Login>{
           child: Container(
             height: 50,
             width: 300,
-            child: FlatButton(onPressed: (){
-              setState(() {
+            child: FlatButton(onPressed:(){
 
-                if(this.user==""){
-                  this.userError=1;
-                }
-                if(this.pasd==""){
-                  this.pswdError=1;
-                }
-              });
-
-            },color: Colors.green, child:Text("登录") ),
+              this.login(context);},color: Colors.green, child:Text("登录") ),
           )
         )
 
@@ -105,4 +111,47 @@ class _Login extends State<Login>{
       ],),
     );
   }
+
+void login(BuildContext context)async{
+
+
+  if(this.user==""){
+    this.userError=1;
+  }
+  if(this.pasd==""){
+    this.pswdError=1;
+  }
+  this.setState ((){
+
+  });
+  if(this.userError==1||this.pswdError==1){
+    return;
+  }
+  showDialog(context: context,barrierDismissible: false,builder:  (context){
+    return MyCustomLoadingDialog();
+  });
+  Dio dio=Dio();
+  var response =await dio.post(Host+"/v1/user/login",
+      data: {"password":this.pasd,"username":this.user});
+
+    Navigator.pop(context);
+   Responseinfo responseinfo=Responseinfo.fromJson(response.data);
+   switch(responseinfo.code){
+     case 200:
+       {
+         Navigator.push(context,MaterialPageRoute(builder: (context) => Home()));
+         break;
+       }
+     case 6:
+       {
+         this.bottomsheetKey.currentState.showBottomSheet((BuildContext context) {
+           return BottomAppBar(child: MyBottomSheet("用户名或者密码错误"));
+         });
+       }
+       break;
+
+   }
+
+
+}
 }
