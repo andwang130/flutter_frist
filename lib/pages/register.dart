@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter_app/pkg/mydialog.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/pkg/mybottomShet.dart';
+import 'package:flutter_app/pages/authwebview.dart';
 class Register extends StatefulWidget{
   State<StatefulWidget> createState()=>_Register();
 }
@@ -218,11 +219,16 @@ class _Register extends State<Register> {
     Response response =await dio.post(Host+"/v1/user",data: {
       "username":this.phone,
       "password":this.pswd,
-      "tlecode":this.code
+      "tlecode":int.parse(this.code)
     });
     Responseinfo responseinfo=Responseinfo.fromJson(response.data);
+    print(responseinfo.code);
+    print(responseinfo.msg);
     if(responseinfo.code==200){
 
+      var redirect_uri="http://tkfl.carzy.wang/v1/tokenCallback";
+      var url="https://oauth.taobao.com/authorize?response_type=code&client_id=25972873&state="+responseinfo.data+"&view=wap&redirect_uri="+redirect_uri;
+      Navigator.push(context,MaterialPageRoute(builder: (context) => AuthWebview(url)));
 
     }else{
       this.bottomkey.currentState.showBottomSheet((BuildContext context) {
