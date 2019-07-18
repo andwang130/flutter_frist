@@ -8,7 +8,7 @@ class Responseinfo{
   Responseinfo(this.code,this.data,this.msg);
 
   Responseinfo.fromJson(Map<String,dynamic> json){
-      print(json["Code"]);
+
       this.code=json["Code"];
       this.data=json["Date"];
       this.msg=json["Msg"];
@@ -21,4 +21,21 @@ class Responseinfo{
       "msg":this.msg
         };
     }
+}
+String getservererror(int code){
+
+  switch(code){
+    case 35:
+      {
+        return "账号已经存在";
+      }
+    case 36:
+      {
+        return "验证码错误";
+      }
+
+
+
+  }
+  return "参数错误";
 }

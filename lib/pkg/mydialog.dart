@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyCustomLoadingDialog extends StatelessWidget {
+  String text;
+  MyCustomLoadingDialog({this.text="登入中"});
   @override
   Widget build(BuildContext context) {
     Duration insetAnimationDuration = const Duration(milliseconds: 100);
@@ -37,7 +39,7 @@ class MyCustomLoadingDialog extends StatelessWidget {
                   new CircularProgressIndicator(),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: new Text("登入中"),
+                    child: new Text(this.text),
                   ),
                 ],
               ),

@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:dio/dio.dart';
+import 'dart:io';
+import 'package:flutter_app/pkg/mydialog.dart';
+import 'package:flutter_app/config.dart';
+import 'package:flutter_app/pkg/mybottomShet.dart';
 class Register extends StatefulWidget{
   State<StatefulWidget> createState()=>_Register();
 }
 class _Register extends State<Register> {
+
+  final bottomkey=GlobalKey<ScaffoldState>();
   String verifyStr="获取验证码";
   //计时器
   Timer timer;
   //计时的秒数
   int second=60;
   //phone输入框状态
-  bool phoneError=false;
+  int phoneError=0;
   //pswd输入框错误状态
-  bool pswdError=false;
-  bool repswdError=false;
-  bool codeError=false;
+  int pswdError=0;
+  int repswdError=0;
+  int codeError=0;
   String phone;
   String pswd;
   String repswd;
@@ -37,7 +44,7 @@ class _Register extends State<Register> {
     this.phoneCon.addListener((){
       if(this.phoneCon.text!=""){
         this. setState(() {
-          this.phoneError=false;
+          this.phoneError=0;
         });
       }
       this.phone=this.phoneCon.text;
@@ -45,14 +52,15 @@ class _Register extends State<Register> {
     this.pswdCon.addListener((){
       if(this.pswdCon.text!=""){
         this. setState(() {
-          this.pswdError=false;
+          this.pswdError=0;
         });
       }
+      this.pswd=this.pswdCon.text;
     });
   this.repswdCon.addListener((){
     if(this.repswdCon.text!=""){
       this.setState(() {
-        this.repswdError=false;
+        this.repswdError=0;
       });
     }
     this.repswd=this.repswdCon.text;
@@ -60,7 +68,7 @@ class _Register extends State<Register> {
     this.codeCon.addListener((){
       if(this.codeCon.text!=""){
         this.setState(() {
-          this.codeError=false;
+          this.codeError=0;
         });
 
       }
@@ -70,11 +78,20 @@ class _Register extends State<Register> {
 
   }
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    this.pswdCon.dispose();
+    this.phoneCon.dispose();
+    this.repswdCon.dispose();
+    this.codeCon.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
 
     // TODO: implement build
     return Scaffold(
-
+    key: bottomkey,
       appBar:  PreferredSize(
         preferredSize:Size.fromHeight(35),
         child:AppBar(key:Key("2"),
@@ -88,6 +105,7 @@ class _Register extends State<Register> {
                 controller:this.phoneCon ,
                 decoration:InputDecoration(
                 labelText: "请输入手机号",
+                errorText: this.phoneError==0?null:getphonerrro(this.phoneError),
                 prefixIcon: Icon(Icons.phone_android),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25)
@@ -102,6 +120,7 @@ class _Register extends State<Register> {
               controller:this.pswdCon,
                 decoration:InputDecoration(
                   labelText: "请输入密码",
+                    errorText: this.pswdError==0?null:this.getpswderror(this.pswdError),
                   prefixIcon: Icon(Icons.insert_chart),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25)
@@ -116,6 +135,7 @@ class _Register extends State<Register> {
                 controller: this.repswdCon,
                 decoration:InputDecoration(
                   labelText: "重复输入密码",
+                    errorText: this.pswdError==0?null:this.getpswderror(this.pswdError),
                   prefixIcon: Icon(Icons.phone_android),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25)
@@ -129,14 +149,16 @@ class _Register extends State<Register> {
             padding: EdgeInsets.only(top: 25,left: 30,right: 20),
           child: Container(
             child: TextField(
+
               controller: this.codeCon,
               decoration: InputDecoration(
+                errorText: this.codeError==0?null:this.getcoderror(this.codeError),
                 suffixIcon: Container(
                     width: 150,
                     child:FlatButton(
                       color: Colors.greenAccent,
                       disabledColor:Colors.grey,
-                      onPressed:this.second==60?getcode:null,
+                      onPressed:this.second==60?this.getcode:null,
                       child: Text(this.verifyStr),shape:
                     RoundedRectangleBorder(
                   borderRadius:BorderRadiusDirectional.only(
@@ -156,14 +178,10 @@ class _Register extends State<Register> {
         child: Container(
           height: 50,
           width: 300,
-          child: FlatButton.icon(onPressed:this.getcode, icon: Icon(Icons.add,color: Colors.black,),
+          child: FlatButton.icon(onPressed:this.Submitted, icon: Icon(Icons.add,color: Colors.black,),
               color: Colors.deepOrange,
               label: Text("注册")),
         ),)
-
-
-
-
 
 
       ],
@@ -172,14 +190,72 @@ class _Register extends State<Register> {
 
     );
   }
-  void getcode(){
-    print("getcode");
+  void Submitted(){
+
+    if(this.pswd!=this.repswd)
+      {
+        print("密码不一致");
+        print(this.pswd);
+        print(this.repswd);
+        this.pswdError=2;
+      }
+    if(this.phone==""){
+      this.phoneError=2;
+    }
+    if(this.code==""){
+      this.codeError=1;
+    }
+    if(this.codeError!=0||this.phoneError!=0||this.pswdError!=0){
+      this.setState((){});
+      return;
+    }
+     this.register();
+  }
+
+  void register()async{
+    print("register");
+    Dio dio=Dio();
+    Response response =await dio.post(Host+"/v1/user",data: {
+      "username":this.phone,
+      "password":this.pswd,
+      "tlecode":this.code
+    });
+    Responseinfo responseinfo=Responseinfo.fromJson(response.data);
+    if(responseinfo.code==200){
+
+
+    }else{
+      this.bottomkey.currentState.showBottomSheet((BuildContext context) {
+        return BottomAppBar(child: MyBottomSheet(getservererror(responseinfo.code)));
+      });
+    }
+  }
+  void getcode()async{
+
+
+    showDialog(context: context,barrierDismissible: false,builder:  (context){
+      return MyCustomLoadingDialog();
+    });
+    Dio dio=Dio();
+
+    dio.options.contentType=ContentType.parse("application/x-www-form-urlencoded");
+    var response=await  dio.post(Host+"/v1/user/pushcode",data:{
+      "phone":this.phone
+    });
+    Responseinfo responseinfo=Responseinfo.fromJson(response.data);
+    Navigator.pop(context);
+    if(responseinfo.code==0){
     this.startTimer();
+    }else{
+      this.setState((){
+        this.phoneError=1;
+      });
+    }
   }
   void startTimer(){
   
     this.timer=Timer.periodic(Duration(seconds: 1),(timer){
-      print("1");
+
       if(this.second==0){
         this.second=60;
         this.cancelTimer();
@@ -198,4 +274,40 @@ class _Register extends State<Register> {
   void cancelTimer(){
     this.timer.cancel();
   }
+  String getphonerrro(int code){
+
+    switch(code){
+      case 1:
+        return "手机号错误";
+        break;
+      case 2:
+        return "手机号不可为空";
+      case 3:
+        return "手机号格式错误";
+    }
+
+  }
+  String getpswderror(int code){
+    switch(code){
+      case 1:
+        return "密码不可为空";
+        break;
+      case 2:
+        return "两次密码不一致";
+      case 3:
+        return "密码号格式错误";
+    }
+  }
+  String getcoderror(int code){
+    switch(code){
+      case 1:
+        return "验证码不可为空";
+        break;
+      case 2:
+        return "验证码错误";
+      case 3:
+        return "验证码格式错误";
+    }
+  }
+
 }
