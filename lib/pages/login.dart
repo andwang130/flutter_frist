@@ -4,7 +4,8 @@ import 'package:flutter_app/config.dart';
 import 'package:flutter_app/pages/home.dart';
 import 'package:flutter_app/pkg/mydialog.dart';
 import 'package:flutter_app/pkg/mybottomShet.dart';
-
+import 'package:flutter_app/model/loginModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Login extends StatefulWidget{
   State<StatefulWidget> createState()=>_Login();
 }
@@ -40,6 +41,7 @@ class _Login extends State<Login>{
         this.pasd=this.pswdController.text;
       });
     });
+
   }
   @override
   void dispose() {
@@ -139,6 +141,10 @@ void login(BuildContext context)async{
    switch(responseinfo.code){
      case 200:
        {
+
+         Token token=await Token.getInstance();
+
+
          Navigator.push(context,MaterialPageRoute(builder: (context) => Home()));
          break;
        }

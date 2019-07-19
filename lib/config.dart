@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 const String Host="http://tkfl.carzy.wang";
 class Responseinfo{
    int Code;
@@ -10,7 +11,7 @@ class Responseinfo{
   Responseinfo.fromJson(Map<String,dynamic> json){
 
       this.code=json["Code"];
-      this.data=json["Date"];
+      this.data=json["Data"];
       this.msg=json["Msg"];
   }
     Map<String, dynamic> tojson(){

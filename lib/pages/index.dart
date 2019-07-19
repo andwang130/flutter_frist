@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import "package:flutter_swiper/flutter_swiper.dart";
 import 'package:flutter_app/pkg/viewlist.dart';
 import 'package:flutter_app/pages/shoplist.dart';
-var tabs=[
-  Tab(text: "综合",),
-  Tab(text: "为你推荐",),
-  Tab(text: "女装",),
-  Tab(text: "天猫国际",),
-  Tab(text: "家居加装",),
-  Tab(text: "数码家店",),
-  Tab(text: "母婴",),
-  Tab(text: "食品",),
-  Tab(text: "鞋包配饰",),
-  Tab(text: "美妆个护",),
-  Tab(text: "男装",),
-  Tab(text: "内衣",),
-  Tab(text: "运动户外",),
-
+var tabs = [
+{ "title": '综合',"value":'3756' },
+{ "title": '女装',"value":'3767'},
+{ "title": '家居家装' ,"value":'3758'},
+{ "title": '数码家电',"value":'3759' },
+{ "title": '母婴' ,"value":'3760'},
+{ "title": '食品' ,"value":'3761'},
+{ "title": '箱包配饰', "value":'3762'},
+{ "title": '美妆个护' ,"value":'3763'},
+{ "title": '男装', "value":'3764'},
+{ "title": '内衣',"value":'3765' },
+{ "title": '运动户外',"value":'3766'},
 ];
+
+
+
 var imgaes = [
   "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=399944689,1746572361&fm=26&gp=1.jpg",
   "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4214474476,1941437198&fm=26&gp=0.jpg",
@@ -43,7 +43,16 @@ class _Index extends State<Index> with SingleTickerProviderStateMixin{
   List<Widget> loadTabview(){
    var  wlist= List<Widget>();
     for (var i in tabs){
-      wlist.add(ViewList());
+      wlist.add(ViewList(material_id: i["value"],));
+    }
+    return wlist;
+  }
+  List<Widget> loadtab(){
+    var  wlist= List<Widget>();
+    for (var i in tabs){
+
+
+      wlist.add(Tab(text: i["title"],));
     }
     return wlist;
   }
@@ -65,7 +74,7 @@ class _Index extends State<Index> with SingleTickerProviderStateMixin{
               indicatorWeight: 1,
               indicatorSize:TabBarIndicatorSize.tab,
               isScrollable:true,
-              tabs:tabs,
+              tabs:loadtab(),
               controller: this.mcontroller,
             ) ,
           )];
