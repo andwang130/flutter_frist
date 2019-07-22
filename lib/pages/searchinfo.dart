@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/back.dart';
-import 'package:flutter_app/pkg/viewlist.dart';
+import 'package:flutter_app/pkg/searchlist.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/model/loginModel.dart';
+import 'package:flutter_app/model/shopModel.dart';
 class SearchInfo extends StatefulWidget{
    String serkey;
 
@@ -28,12 +29,17 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
   bool isscreen=false;
   bool iscoupon=false;
   String sort="";
+  List<ShopModel> shoplist;
+  int page=1;
+
   var _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     // TODO: implement setState
+    this.shoplist=new List<ShopModel>();
     super.initState();
+  ;
     this.animController = new AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     this._searkey=widget.serkey;
     this.selectnam="默认排序";
@@ -46,13 +52,14 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
     this.isyk=false;
     this.isbaoyou=false;
     this.iscoupon=false;
-    this.searinfo();
+    this.searchdata();
+
   }
 
-  searinfo()async{
-    Dio dio=Dio();
-    Token token=await Token.getInstance();
-    Response response =await dio.post(Host+"/v1/shop/search",data:{
+  getdata(){
+
+
+  Map<String,String> data={
       "q":this._searkey,
       "is_tmall":this.istiamo==true?"true":"false",
       "need_prepay":this.isxb==true?"true":"false",
@@ -62,9 +69,32 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
       "include_pay_rate_30":this.iszh==true?"true":"false",
       "has_coupon":this.iscoupon==true?"true":"false",
       "sort":this.sort
+    };
+  return data;
 
-    },options:getOptions(token.getToken()));
-    print(response.data);
+  }
+  void initShoplist(){
+    print("111");
+    this.shoplist=new List<ShopModel>();
+    this.page=1;
+    this.searchdata();
+  }
+  void searchdata()async{
+
+    Token token=await Token.getInstance();
+
+    Dio dio=Dio();
+    Response response =await dio.post(Host+"/v1/shop/search",data:this.getdata(),options:getOptions(token.getToken()));
+    List<dynamic> datalist=response.data["Data"]["Map_data"];
+    print(datalist[0]);
+    for(int i=0;i<datalist.length;i++){
+
+      ShopModel shopModel=ShopModel.fromJson(datalist[i],1);
+      this.shoplist.add(shopModel);
+    }
+    this.setState((){
+      this.page++;
+    });
 
   }
   Widget chekeItme(String name,String _sort){
@@ -72,6 +102,8 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
      onTap: (){
        this.selectnam=name;
        this.sort=_sort;
+       this.page=1;
+       this.initShoplist();
        this.showDropDownItemWidget();
      },
       child: Container(
@@ -113,6 +145,7 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return Scaffold(
       key:  _scaffoldkey,
       appBar: PreferredSize(
@@ -178,6 +211,7 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
                    children: <Widget>[
                      GestureDetector(
                        onTap: (){
+                         this.initShoplist();
                          this.setState((){
                            this.iscoupon=!this.iscoupon;
                          });
@@ -209,7 +243,12 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
                 ],
               ),),
             SizedBox(height: 8,),
-            Expanded(child:    Padding(child: ViewList() ,padding: EdgeInsets.only(top: 1),),)
+            Expanded(child:    Padding(
+
+              child: SearchList(
+               getnext: this.searchdata,
+                shoplist: this.shoplist,
+            ) ,padding: EdgeInsets.only(top: 1),),)
         ],),
 
 
@@ -272,7 +311,10 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
     }else{
       this.isscreen=false;
     }
-    this.setState((){});
+    this.initShoplist();
+    this.setState((){
+
+    });
 }
 }
 class Drawerbuid extends StatefulWidget{

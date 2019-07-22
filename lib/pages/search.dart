@@ -11,7 +11,7 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
 
   String searchKey;
   TextEditingController textcontroller;
-  List<String> historys;
+  List<dynamic> historys;
   @override
   void initState() {
     // TODO: implement initState
@@ -24,8 +24,8 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
     Dio dio=Dio();
     Token token=await Token.getInstance();
    Response response  =await dio.get(Host+"/v1/shop/history",options: getOptions(token.getToken()));
-   historys=response.data["Data"];
-
+   this.historys=response.data["Data"];
+  this.setState((){});
     
   }
   @override
@@ -40,7 +40,11 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
     return Scaffold(
         backgroundColor: Color.fromRGBO(	240,248,255, 1),
       appBar: PreferredSize(child: AppBar(
-        leading: GestureDetector(child: Icon(Icons.arrow_back_ios,color: Colors.grey,),),
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back_ios,color: Colors.grey,),),
         titleSpacing:0,
         backgroundColor: Colors.white70,
 
@@ -105,12 +109,15 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
 
       ],),
       Container(
-        padding: EdgeInsets.only(top: 10,left: 5,right: 5),
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.only(top: 15,left: 15,right: 15),
         child:Wrap(
+
             spacing:8,
             runSpacing:1,
-          children: this.historys!=null?this.historys.map((String val){
+          children: this.historys!=null?this.historys.map((dynamic val){
 
+            print(val);
             return  Tagbuttion(val);
           }
           ).toList():[]
@@ -123,6 +130,6 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
   }
   Widget Tagbuttion(String key){
 
-    return  Chip(label:Text("去脂肪粒神器"));
+    return  Chip(label:Text(key));
   }
 }

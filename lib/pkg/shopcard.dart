@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/shop.dart';
 class ShopCard extends StatelessWidget {
-  String title = "去脂肪粒油脂粒汗管粒消除眼部脸部瘤专用膏精华素男女"; //标题
+  String title; //标题
   String image; //图片
   double income = 20; //可赚
-  int sales = 20; //销量
+  int sales; //销量
   int coupon; //优惠券
-  double price = 25; //价格
+  double price; //价格
   double disprice; //优惠后的价格
-//  ShopCard(this.sales,this.coupon,this.price,this.disprice){
-//
-//  }
+  ShopCard({this.title,this.sales,this.coupon,this.price,this.disprice,this.image,this.income=0}){
+
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -26,12 +26,17 @@ class ShopCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  child: Image.network(
-                      "http://gd1.alicdn.com/imgextra/i1/397990402/O1CN01CdNfpA1Eq9l1Ou5oi_!!397990402.png_400x400.jpg"),
+                  child:Container(
+                height: 100,
+                width: 100,
+                child:Image.network(
+                this.image)),
                   flex: 1,
                 ),
                 Expanded(
@@ -43,7 +48,7 @@ class ShopCard extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: Text(this.title,
                             softWrap: true,
-                            maxLines: 3,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis),
                       ),
                       Container(
@@ -52,7 +57,7 @@ class ShopCard extends StatelessWidget {
                             children: <Widget>[
                               Expanded(
                                 flex: 1,
-                                child: couponIcon(1),
+                                child:this.coupon>0?couponIcon(this.coupon):Container(height: 5,),
                               ),
                               Expanded(
                                 flex: 1,
@@ -75,13 +80,13 @@ class ShopCard extends StatelessWidget {
                                     TextStyle(fontSize: 15, color: Colors.grey),
                               ),
                               Text(
-                                "${income}",
+                                "${this.disprice}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w500),
                               ),
                               Text(
-                                "￥${price}",
+                                "￥${this.price}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
@@ -94,7 +99,7 @@ class ShopCard extends StatelessWidget {
                 )
               ],
             ),
-            ShopButton(),
+            ShopButton(this.income),
 
           ],
         ),
@@ -110,7 +115,9 @@ Widget couponIcon(int num){
     child: Row(
       children: <Widget>[
         Image.network("https://img.alicdn.com/imgextra/i4/720077060/O1CN01Fb3r5W221WlYIt3A5_!!720077060.png"),
-        Container(child: Text("${num}元"),
+        Container(
+          alignment: Alignment.center,
+          child: Text("${num}元"),
           height: 25,
           width: 35,
           padding: EdgeInsets.only(left: 5),
@@ -126,7 +133,7 @@ Widget couponIcon(int num){
     ),
   );
 }
-Widget ShopButton(){
+Widget ShopButton(double num){
   return   Container(
 
     alignment: Alignment.topRight,
@@ -137,7 +144,7 @@ Widget ShopButton(){
       icon: Icon(Icons.arrow_forward_ios,color: Colors.white,),
       label:Row(children: <Widget>[
         Text("赚",style: TextStyle(fontSize: 15,color: Colors.white)),
-        Text("1.26",style: TextStyle(fontSize: 20,color: Colors.white),)
+        Text("$num",style: TextStyle(fontSize: 20,color: Colors.white),)
       ],),
       onPressed: (){},
 
