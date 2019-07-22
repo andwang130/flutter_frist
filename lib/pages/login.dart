@@ -143,7 +143,7 @@ void login(BuildContext context)async{
        {
 
          Token token=await Token.getInstance();
-
+         token.SetToken(responseinfo.data);
 
          Navigator.push(context,MaterialPageRoute(builder: (context) => Home()));
          break;

@@ -1,12 +1,39 @@
 import "package:flutter/material.dart";
-
+import 'package:dio/dio.dart';
+import 'package:flutter_app/config.dart';
+import 'package:flutter_app/model/loginModel.dart';
+import 'package:flutter_app/pages/searchinfo.dart';
 class Search extends StatefulWidget{
 
   State<StatefulWidget> createState()=>_Search();
 }
 class _Search extends State<Search> with SingleTickerProviderStateMixin{
 
+  String searchKey;
+  TextEditingController textcontroller;
+  List<String> historys;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.textcontroller=TextEditingController();
+    this.getHistory();
 
+  }
+  getHistory()async{
+    Dio dio=Dio();
+    Token token=await Token.getInstance();
+   Response response  =await dio.get(Host+"/v1/shop/history",options: getOptions(token.getToken()));
+   historys=response.data["Data"];
+
+    
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    this.textcontroller.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -38,6 +65,13 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
                 child: Container(
                   alignment: Alignment.center,
                   child:TextField(
+                    onChanged: (String val){
+                      this.searchKey=val;
+                    },
+                      onEditingComplete:(){
+
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => SearchInfo(this.searchKey)));
+                      },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(0.8),
                       hintText: "搜索",
@@ -75,20 +109,11 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
         child:Wrap(
             spacing:8,
             runSpacing:1,
-          children: <Widget>[
-            Chip(label:Text("去脂肪粒神器"),),
-            Chip(label:Text("去脂肪粒神器去脂肪粒神器"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-            Chip(label:Text("去脂肪粒"),),
-          ],
+          children: this.historys!=null?this.historys.map((String val){
+
+            return  Tagbuttion(val);
+          }
+          ).toList():[]
         ) ,
       )
       ],
@@ -98,13 +123,6 @@ class _Search extends State<Search> with SingleTickerProviderStateMixin{
   }
   Widget Tagbuttion(String key){
 
-    return Container(
-
-      width: 30,
-      child: FlatButton(
-      color: Colors.grey,
-      onPressed: (){},
-      child: Text(key),
-    ),);
+    return  Chip(label:Text("去脂肪粒神器"));
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/back.dart';
 import 'package:flutter_app/pkg/viewlist.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_app/config.dart';
+import 'package:flutter_app/model/loginModel.dart';
 class SearchInfo extends StatefulWidget{
    String serkey;
 
-   SearchInfo(this.serkey){
-
-   }
+   SearchInfo(this.serkey);
   @override
   State<StatefulWidget> createState(){
    return _SearchInfo();
@@ -22,10 +23,11 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
   String _searkey;
   String selectnam;
   bool isshow=false;
-  bool isCoupon=false;
+
   bool isoedge=false;
   bool isscreen=false;
-
+  bool iscoupon=false;
+  String sort="";
   var _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -43,12 +45,33 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
     this.isxb=false;
     this.isyk=false;
     this.isbaoyou=false;
+    this.iscoupon=false;
+    this.searinfo();
   }
 
-  Widget chekeItme(String name){
+  searinfo()async{
+    Dio dio=Dio();
+    Token token=await Token.getInstance();
+    Response response =await dio.post(Host+"/v1/shop/search",data:{
+      "q":this._searkey,
+      "is_tmall":this.istiamo==true?"true":"false",
+      "need_prepay":this.isxb==true?"true":"false",
+      "need_free_shipment":this.isbaoyou==true?"true":"false",
+      "include_rfd_rate":this.isyk==true?"true":"false",
+      "include_good_rate":this.ishp==true?"true":"false",
+      "include_pay_rate_30":this.iszh==true?"true":"false",
+      "has_coupon":this.iscoupon==true?"true":"false",
+      "sort":this.sort
+
+    },options:getOptions(token.getToken()));
+    print(response.data);
+
+  }
+  Widget chekeItme(String name,String _sort){
    return GestureDetector(
      onTap: (){
        this.selectnam=name;
+       this.sort=_sort;
        this.showDropDownItemWidget();
      },
       child: Container(
@@ -113,7 +136,7 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
             },
             child:Container(
             alignment: Alignment.centerLeft,
-            child: Text("去脂肪粒神器"),
+            child: Text(this._searkey),
           ),)
         ),
 
@@ -156,12 +179,12 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
                      GestureDetector(
                        onTap: (){
                          this.setState((){
-                           this.isCoupon=!this.isCoupon;
+                           this.iscoupon=!this.iscoupon;
                          });
                        },
                        child: Row(
                          children: <Widget>[
-                           Icon(Icons.check_circle,color: this.isCoupon==true?Colors.red:Colors.grey,),
+                           Icon(Icons.check_circle,color: this.iscoupon==true?Colors.red:Colors.grey,),
                            Text("优惠券")
                          ],
                        ),),
@@ -199,11 +222,11 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
 
               child: ListView(
                 children: <Widget>[
-                  chekeItme("默认排序"),
-                  chekeItme("销量从高到低"),
-                  chekeItme("收入比率从高到低"),
-                  chekeItme("价格从高到低"),
-                  chekeItme("价格从低到高"),
+                  chekeItme("默认排序",""),
+                  chekeItme("销量从高到低","total_sales_des"),
+                  chekeItme("收入比率从高到低","tk_rate_des"),
+                  chekeItme("价格从高到低","price_des"),
+                  chekeItme("价格从低到高","price_asc"),
                 ],
               ),
             ),

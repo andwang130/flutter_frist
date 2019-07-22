@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app/pages/search.dart';
 class HomeSearch extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -14,6 +14,9 @@ class HomeSearch extends StatelessWidget{
 
                   height: 28,
                   child:TextField(
+                    onTap: (){
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => new Search()));
+                    },
                   decoration:InputDecoration(
                       border:InputBorder.none,
                   fillColor: Colors.white

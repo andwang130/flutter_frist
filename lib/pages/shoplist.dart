@@ -1,33 +1,65 @@
 import "package:flutter/material.dart";
 import 'package:flutter_app/pkg/viewlist.dart';
 import 'package:flutter_app/pkg/appbarH35.dart';
-var tabs=[
-  Tab(text: "综合",),
-  Tab(text: "为你推荐",),
-  Tab(text: "女装",),
-  Tab(text: "天猫国际",),
-  Tab(text: "家居加装",),
-  Tab(text: "数码家店",),
-  Tab(text: "母婴",),
-  Tab(text: "食品",),
-  Tab(text: "鞋包配饰",),
-  Tab(text: "美妆个护",),
-  Tab(text: "男装",),
-  Tab(text: "内衣",),
-  Tab(text: "运动户外",),
 
-];
+var title="title";
+var value="value";
+var  haohuo=[{title:"综合",value:4092}];
+var tehui=[{title:"综合",value:4094}];
+var  pinpai=[{title:"综合",value:3786},{title:'女装',value:3788},{title:'家居家装',value:3792},{title:"数码家电",value:3793},{title:'鞋包配饰',value:3796},{title:'美妆个护',value:3794},
+{title:'男装',value:3790},{title:"内衣",value:3787},{title:"母婴",value:3789},{title:'食品',value:3791}
+,{title:'运动户外',value:3795}];
+var muyin=[{title:"母婴备孕",value:4040},{title:"0-6个月",value:4041},
+{title:"7-12个月",value:4042},{title:"1-3岁",value:4043},{title:"4-6岁",value:4044},{title:"7-12岁",value:4045}];
+var dare=[{title:"综合",value:9660},{title:'女装',value:9658},{title:'家居家装',value:9655},{title:"数码家电",value:9656},{title:'鞋包配饰',value:9648},{title:'美妆个护',value:9653},
+{title:'男装',value:9654},{title:"内衣",value:9652},{title:"母婴",value:9650},{title:'食品',value:9649}
+,{title:'运动户外',value:9651}];
+
+var gaoyong=[{title:"综合",value:13366},{title:'女装',value:13367},{title:'家居家装',value:13368},{title:"数码家电",value:13369},{title:'鞋包配饰',value:13370},{title:'美妆个护',value:13371},
+  {title:'男装',value:13372},{title:"内衣",value:13373},{title:"母婴",value:13374},{title:'食品',value:13375}
+  ,{title:'运动户外',value:13376}];
+
+
+var tabs={
+  "tehui":tehui,
+  "pinpai":pinpai,
+  "haohuo":haohuo,
+  "muying":muyin,
+  "gaoyong":gaoyong,
+  "dare":dare,
+};
 class ShopList extends StatefulWidget{
 
+  String shopkey;
+  ShopList(this.shopkey);
   State<StatefulWidget> createState()=>_ShopList();
 }
 class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
   TabController mcontroller;
+  String shopkey;
   @override
   void initState(){
     super.initState();
+    this.shopkey=widget.shopkey;
     this.mcontroller=TabController(length: tabs.length,vsync:this);
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    this.mcontroller.dispose();
+  }
+  tabload(){
+    List<Widget> wlist;
+    for (int i=0;i<tabs[this.shopkey].length;i++){
+
+      wlist.add(Tab(text:tabs[this.shopkey][i][title]),);
+    }
+    return wlist;
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -50,7 +82,7 @@ class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
                 child: Image.network("https://gw.alicdn.com/tfs/TB1jRH4jgHqK1RjSZFkXXX.WFXa-920-340.jpg",fit: BoxFit.fill,),)
                 ,),
               bottom:TabBar(
-                tabs: tabs,
+                tabs:this.tabload(),
                 indicatorColor:Colors.white30,
                 labelColor:Colors.black,
                 indicatorWeight: 1,
@@ -68,8 +100,8 @@ class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
   }
   List<Widget> loadTabview(){
     var  wlist= List<Widget>();
-    for (var i in tabs){
-      wlist.add(ViewList());
+    for (var i in tabs[shopkey]){
+      wlist.add(ViewList(material_id: i[value],));
     }
     return wlist;
   }

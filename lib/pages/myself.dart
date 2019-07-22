@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/deal.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_app/config.dart';
+import 'package:flutter_app/model/loginModel.dart';
+import 'package:flutter_app/model/myinfomodel.dart';
+import 'dart:convert';
 var src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562322911498&di=3052621d553ba61cc43d9bb850367a9b&imgtype=0&src=http%3A%2F%2Fimages6.fanpop.com%2Fimage%2Fphotos%2F35100000%2FFluttershy-my-little-pony-friendship-is-magic-35157899-1400-1850.jpg";
 var myfontType=TextStyle(fontSize: 20,color: Colors.black,fontWeight:FontWeight.w500 );
 var bottomline=BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey,width: 0.5)));
@@ -9,6 +14,26 @@ class Myself extends StatefulWidget{
   State<StatefulWidget> createState()=>_Myself();
 }
 class _Myself extends State<Myself>{
+
+  String Taobaonick="";
+  String id="";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.getmyinfo();
+  }
+  getmyinfo()async{
+    Dio dio=Dio();
+    Token token= await Token.getInstance();
+    Response response =await dio.get(Host+"/v1/user/getinfo",options: getOptions(token.getToken()));
+    Myinfo myinfo=Myinfo.fromJson(response.data["Data"]);
+    print(myinfo.taobaonick);
+    this.Taobaonick=myinfo.taobaonick;
+    this.id=myinfo.id.toString();
+    this.setState((){});
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -34,8 +59,8 @@ class _Myself extends State<Myself>{
                     child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("ZHANSHENG130789",style: myfontType,),
-                        Text("账号id:12351321")
+                        Text(this.Taobaonick,style: myfontType,),
+                        Text("账号id:${this.id}")
                       ],),)
 
                 ],

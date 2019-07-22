@@ -183,7 +183,7 @@ Widget _flexibleSpace(){
                  ]),
                ),
                 onTap: (){
-               Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList()));
+               Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("dare")));
              },),),
             Expanded(
               flex: 1,
