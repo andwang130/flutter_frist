@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/shopcard.dart';
 import 'package:flutter_app/pkg/back.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_app/pages/share.dart';
 class Shop extends StatelessWidget{
 
 
@@ -144,7 +145,13 @@ class Shop extends StatelessWidget{
           child: FlatButton(
             color: Colors.deepOrange,
             child: Text("立即分享"),onPressed: (){
-
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Shaer(
+            title: this.title,
+            price: this.price,
+            disprice: this.disprice,
+            commission_rate:this.commission_rate,
+              income: this.income,
+          ),));
           },)
       ) ,
 

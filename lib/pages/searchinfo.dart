@@ -68,13 +68,14 @@ class _SearchInfo extends State<SearchInfo> with SingleTickerProviderStateMixin{
       "include_good_rate":this.ishp==true?"true":"false",
       "include_pay_rate_30":this.iszh==true?"true":"false",
       "has_coupon":this.iscoupon==true?"true":"false",
-      "sort":this.sort
+      "sort":this.sort,
+      "Page_no":this.page.toString()
     };
   return data;
 
   }
   void initShoplist(){
-    print("111");
+
     this.shoplist=new List<ShopModel>();
     this.page=1;
     this.searchdata();

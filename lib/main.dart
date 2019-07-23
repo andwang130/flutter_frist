@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     var redirect_uri="http://tkfl.carzy.wang/v1/tokenCallback";
     var url="https://oauth.taobao.com/authorize?response_type=code&client_id=25972873&state="+"15179601349"+"&view=wap&redirect_uri="+redirect_uri;
     return MaterialApp(
-     home:Shaer()
+     home:Login()
     );
   }
 }

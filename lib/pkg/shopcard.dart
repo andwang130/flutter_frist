@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/shop.dart';
+import 'package:flutter_app/pages/share.dart';
 class ShopCard extends StatelessWidget {
   String title; //标题
   String image; //图片
   double income = 20; //可赚
-  int sales; //销量
+  int sales; //销量income
   int coupon; //优惠券
   double price; //价格
   double disprice; //优惠后的价格
@@ -115,7 +116,7 @@ class ShopCard extends StatelessWidget {
                 )
               ],
             ),
-            ShopButton(this.income),
+            ShopButton(this.income,context),
 
           ],
         ),
@@ -124,6 +125,33 @@ class ShopCard extends StatelessWidget {
       );
 
   }
+  Widget ShopButton(double num,BuildContext context){
+    return   Container(
+
+      alignment: Alignment.topRight,
+      child: FlatButton.icon(
+        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        color: Colors.deepOrange,
+        highlightColor: Colors.blue,
+        icon: Icon(Icons.arrow_forward_ios,color: Colors.white,),
+        label:Row(children: <Widget>[
+          Text("赚",style: TextStyle(fontSize: 15,color: Colors.white)),
+          Text("$num",style: TextStyle(fontSize: 20,color: Colors.white),)
+        ],),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Shaer(
+              title: this.title,
+              price: this.price,
+              disprice: this.disprice,
+              commission_rate:this.commission_rate,
+            income: this.income,
+          )));
+        },
+
+      ),
+    );
+  }
+
 }
 Widget couponIcon(int num){
   return Container(
@@ -146,24 +174,6 @@ Widget couponIcon(int num){
           ),
         )
       ],
-    ),
-  );
-}
-Widget ShopButton(double num){
-  return   Container(
-
-    alignment: Alignment.topRight,
-    child: FlatButton.icon(
-      shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      color: Colors.deepOrange,
-      highlightColor: Colors.blue,
-      icon: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-      label:Row(children: <Widget>[
-        Text("赚",style: TextStyle(fontSize: 15,color: Colors.white)),
-        Text("$num",style: TextStyle(fontSize: 20,color: Colors.white),)
-      ],),
-      onPressed: (){},
-
     ),
   );
 }

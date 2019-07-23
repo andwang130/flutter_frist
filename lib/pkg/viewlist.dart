@@ -30,6 +30,7 @@ class _ViewList extends State<ViewList>{
 
 
     this.material_id=widget.material_id;
+
       this.getdata();
 
   }
@@ -38,9 +39,11 @@ class _ViewList extends State<ViewList>{
 
   Token token=await Token.getInstance();
 
+  print(this.page);
   Dio dio=Dio();
 
-  Response response =await dio.post(Host+"/v1/shop/optimus",data:{"material_id":this.material_id,"page":page.toString()},options:getOptions(token.getToken()));
+
+  Response response =await dio.post(Host+"/v1/shop/optimus",data:{"material_id":this.material_id,"Page_no":this.page.toString()},options:getOptions(token.getToken()));
 
   List<dynamic> datalist=response.data["Data"]["Map_data"];
   for(int i=0;i<datalist.length;i++){
@@ -49,7 +52,7 @@ class _ViewList extends State<ViewList>{
     this.shoplist.add(shopModel);
   }
   this.setState((){
-    page++;
+    this.page++;
   });
 
   }
@@ -66,9 +69,16 @@ class _ViewList extends State<ViewList>{
        itemBuilder: (BuildContext context,int index){
 
          if(index>this.shoplist.length-2){
-
-
             this.getdata();
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              alignment: Alignment.center,
+              child: SizedBox(
+                  width: 24.0,
+                  height: 24.0,
+                  child: CircularProgressIndicator(strokeWidth: 2.0)
+              ),
+            );
          }
          ShopModel sp=shoplist[index];
          double _disprice=double.parse((sp.zk_final_price-sp.coupon_amount).toStringAsFixed(2));

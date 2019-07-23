@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/appbarH35.dart';
+import 'package:flutter/services.dart';
 class Shaer extends StatelessWidget{
-
+  String commission_rate; //佣金比例
+  double price; //价格
+  double disprice; //优惠后的价格
+  String title; //标题
+  String text;
+  double income;
+  Shaer({this.commission_rate,this.price,this.disprice,this.title,this.income}){
+    this.text= "${this.title}\n"+
+        "[在售价]${this.price}元\n"+
+        "[券后价]${this.disprice}元\n"+
+        "[下单链接]https//m.tb.cn/h.sesese\n"+
+        "______________________\n"+
+        "复制这条信息,￥GMDAA4￥，到[手机淘宝]即可查看";
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -20,7 +34,7 @@ class Shaer extends StatelessWidget{
             child: Row(
             children: <Widget>[
               Icon(Icons.monetization_on,color: Colors.green[300],),
-              Text("您的佣金预计为6.00%(预计￥1.73)",style: TextStyle(fontSize: 17,color:Colors.green[900] ),)
+              Text("您的佣金预计为${this.commission_rate}%(预计￥${this.income})",style: TextStyle(fontSize: 17,color:Colors.green[900] ),)
 
             ],
           ) ,),
@@ -34,13 +48,7 @@ class Shaer extends StatelessWidget{
             height: 250,
             width: MediaQuery.of(context).size.width-20,
 
-            child: Text(
-                "北部湾烤鸭蛋20枚大广西北海红树林正宗树林正宗树林正宗树林正宗树林正宗树林正宗树林正宗\n"+
-                    "[在售价]31.9元\n"+
-                "[券后价]28.80元\n"+
-                "[下单链接]https//m.tb.cn/h.sesese\n"+
-                "______________________\n"+
-                    "复制这条信息,￥GMDAA4￥，到[手机淘宝]即可查看",
+            child: Text(this.text,
               style: TextStyle(fontSize: 16),
             ),
 
@@ -50,7 +58,27 @@ class Shaer extends StatelessWidget{
             height: 55,
             
             width: MediaQuery.of(context).size.width,
-            child: FlatButton(color: Colors.deepOrange,onPressed: (){}, child: Text("复制文案",style: TextStyle(
+            child: FlatButton(color: Colors.deepOrange,onPressed: (){
+
+            Clipboard.setData(ClipboardData(text:this.text));
+            showDialog(context: context,barrierDismissible:true,builder: (context){
+              return Center(
+                child:
+                GestureDetector(child:Container(
+                  alignment: Alignment.center,
+                  height: 100,
+                  width: 200,
+                  color: Colors.white,
+                  child: Text("复制成功",style: TextStyle(fontSize: 18,color: Colors.black),),
+                ), onTap: (){
+                  Navigator.pop(context);
+                },),
+
+              );
+            });
+
+
+            }, child: Text("复制文案",style: TextStyle(
               color: Colors.white,
               fontSize: 18
             ),),
