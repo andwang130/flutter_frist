@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/shopcard.dart';
 import 'package:flutter_app/pkg/back.dart';
-class Shop extends StatefulWidget{
-  State<StatefulWidget> createState()=>_Shop();
+import 'package:url_launcher/url_launcher.dart';
+class Shop extends StatelessWidget{
 
-}
-class _Shop extends State<Shop>{
+
+  String title; //标题
+  String image; //图片
+  double income ; //可赚
+  int sales; //销量
+  int coupon; //优惠券
+  double price; //价格
+  double disprice; //优惠后的价格
+  String coupon_start_fee;//优惠券信息-优惠券起用门槛，满X元可用。如：满299元减20元
+  String commission_rate; //佣金比例
+  String coupon_share_url;  //链接-宝贝+券二合一页面链接
+  Shop({this.title="",this.image="",this.sales=0,this.coupon=0,this.price=0,this.disprice,
+    this.income=0,
+    this.coupon_start_fee="",
+    this.commission_rate="",
+    this.coupon_share_url=""}){
+
+  }
+  languchurl()async{
+    String url ="https://t.asczwa.com/taobao?backurl="+this.coupon_share_url;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -22,7 +46,7 @@ class _Shop extends State<Shop>{
           color: Colors.redAccent,
           height: 300,
           width: MediaQuery.of(context).size.width,
-          child:Image.network("http://gd3.alicdn.com/imgextra/i1/3476387311/O1CN0123sU6NIfdoST9Q8_!!3476387311.jpg",fit: BoxFit.fitWidth,),),
+          child:Image.network(this.image,fit: BoxFit.fitWidth,),),
         Container(
           color: Colors.white,
           padding: EdgeInsets.only(left: 10,top: 5,right: 10,bottom: 5),
@@ -32,7 +56,7 @@ class _Shop extends State<Shop>{
           Row(children: <Widget>[
             Expanded(
                 flex: 5,
-                child:Text("去脂肪粒祛除膏眼霜消除眼部油脂粒导出神器仟露云草植萃精华霜女")),
+                child:Text(this.title)),
             Expanded(
                 flex: 1,
                 child:Align(
@@ -41,9 +65,7 @@ class _Shop extends State<Shop>{
                       tooltip: "123",
                       iconSize: 35,
                       icon:Icon(Icons.find_in_page,),
-                      onPressed: (){
-
-                      }),)
+                      onPressed: this.languchurl),)
             ),
           ],
           ),
@@ -59,7 +81,7 @@ class _Shop extends State<Shop>{
                     decoration:BoxDecoration(border: Border.all(width: 1,color: Colors.redAccent)),
                     child: Text("券后价",style: TextStyle(color: Colors.redAccent),),),
                   Container(width: 15,),
-                  Text("95.30")
+                  Text("${this.disprice}")
                 ],),
                 Container(height: 5,),
                 Row(
@@ -67,12 +89,12 @@ class _Shop extends State<Shop>{
                     Text("现价"),
                     Container(width: 15,),
                     Text("￥"),
-                    Text("150.00")
+                    Text("${this.price}")
                   ],
                 )
               ],
             ),
-            Expanded( child: Align(child: Text("已售：30万件"),
+            Expanded( child: Align(child: Text("已售：${this.sales}件"),
             alignment: Alignment.bottomRight,),),
           ],),
 
@@ -88,16 +110,16 @@ class _Shop extends State<Shop>{
               Container(width: 5,),
               Text("优惠券"),
               Container(width: 5,),
-              Text("320.0元",style: TextStyle(color: Colors.redAccent)),
-              Text(" (满349.0使用)",style: TextStyle(color: Colors.grey),)
+              Text("${this.coupon}元",style: TextStyle(color: Colors.redAccent)),
+              Text(" (满${this.coupon_start_fee}元可以使用)",style: TextStyle(color: Colors.grey),)
             ],),
             Row(children: <Widget>[
               Icon(Icons.monetization_on,color: Colors.grey,),
               Container(width: 5,),
               Text("佣金"),
               Container(width: 5,),
-              Text("9.00%",style: TextStyle(color: Colors.redAccent),),
-              Text(" (预计￥2.69元)",style:TextStyle(color: Colors.grey))
+              Text("${this.commission_rate}%",style: TextStyle(color: Colors.redAccent),),
+              Text(" (预计￥${this.income}元)",style:TextStyle(color: Colors.grey))
             ],),
           ],
         )
@@ -110,14 +132,8 @@ class _Shop extends State<Shop>{
        )),),),
         Container(
           child: Column(children: <Widget>[
-            ShopCard(),
-            ShopCard(),
-            ShopCard(),
-            ShopCard(),
-            ShopCard(),
-            ShopCard(),
-            ShopCard(),
-            ShopCard(),
+
+
           ],),),
 
 

@@ -19,6 +19,14 @@ var gaoyong=[{title:"综合",value:13366},{title:'女装',value:13367},{title:'�
   {title:'男装',value:13372},{title:"内衣",value:13373},{title:"母婴",value:13374},{title:'食品',value:13375}
   ,{title:'运动户外',value:13376}];
 
+var images={
+  "tehui":"https://img.alicdn.com/imgextra/i2/720077060/O1CN01cqDTkV221WlpjcYot_!!720077060.png",
+  "pinpai":"https://img.alicdn.com/imgextra/i3/720077060/O1CN019NGLGa221WluucWrX_!!720077060.png",
+  "haohuo":"https://img.alicdn.com/imgextra/i4/720077060/O1CN01r69LMz221WltUoemy_!!720077060.png",
+  "muying":"https://img.alicdn.com/imgextra/i3/720077060/O1CN01BBZogZ221Wlr9gobT_!!720077060.png",
+  "gaoyong":"https://img.alicdn.com/imgextra/i4/720077060/O1CN01r69LMz221WltUoemy_!!720077060.png",
+  "dare":"https://img.alicdn.com/imgextra/i2/720077060/O1CN01mRRmnM221WluSIM0M_!!720077060.png",
+};
 
 var tabs={
   "tehui":tehui,
@@ -31,17 +39,21 @@ var tabs={
 class ShopList extends StatefulWidget{
 
   String shopkey;
+  String image;
   ShopList(this.shopkey);
   State<StatefulWidget> createState()=>_ShopList();
 }
 class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
   TabController mcontroller;
   String shopkey;
+  String image;
   @override
   void initState(){
     super.initState();
     this.shopkey=widget.shopkey;
-    this.mcontroller=TabController(length: tabs.length,vsync:this);
+    this.image=images[this.shopkey];
+    this.mcontroller=TabController(length: tabs[this.shopkey].length,vsync:this);
+
   }
   @override
   void dispose() {
@@ -51,6 +63,7 @@ class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
   }
   tabload(){
     List<Widget> wlist;
+    wlist= List<Widget>();
     for (int i=0;i<tabs[this.shopkey].length;i++){
 
       wlist.add(Tab(text:tabs[this.shopkey][i][title]),);
@@ -79,7 +92,7 @@ class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
               Container(
                 height: 160,
                 padding: EdgeInsets.only(bottom: 40),
-                child: Image.network("https://gw.alicdn.com/tfs/TB1jRH4jgHqK1RjSZFkXXX.WFXa-920-340.jpg",fit: BoxFit.fill,),)
+                child: Image.network(this.image,fit: BoxFit.fill,),)
                 ,),
               bottom:TabBar(
                 tabs:this.tabload(),
@@ -101,7 +114,7 @@ class _ShopList extends State<ShopList> with SingleTickerProviderStateMixin{
   List<Widget> loadTabview(){
     var  wlist= List<Widget>();
     for (var i in tabs[shopkey]){
-      wlist.add(ViewList(material_id: i[value],));
+      wlist.add(ViewList(material_id: i[value].toString(),));
     }
     return wlist;
   }

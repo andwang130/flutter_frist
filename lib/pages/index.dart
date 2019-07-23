@@ -183,7 +183,7 @@ Widget _flexibleSpace(){
                  ]),
                ),
                 onTap: (){
-               Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("dare")));
+               Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("haohuo")));
              },),),
             Expanded(
               flex: 1,
@@ -213,6 +213,9 @@ Widget _flexibleSpace(){
                  )
                ]),
                ),
+                onTap: (){
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("tehui")));
+                },
              ),
   )
 
@@ -232,8 +235,9 @@ Widget _flexibleSpace(){
           ),
           height: 100,
           child: Row(children: <Widget>[
+            GestureDetector(child:
             Container(
-              width: 100,
+              width: 105,
               decoration:BoxDecoration(
                   border:Border(right:BorderSide(color:Colors.grey,width: 1))
               ),
@@ -247,7 +251,10 @@ Widget _flexibleSpace(){
                 ],
               ),
             ),
-            Container(
+            onTap: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("pinpai")));
+            },),
+            GestureDetector(child:Container(
               width: 100,
               decoration:BoxDecoration(
                   border:Border(right:BorderSide(color:Colors.grey,width: 1))
@@ -261,8 +268,11 @@ Widget _flexibleSpace(){
 
                 ],
               ),
-            ),
-            Container(
+            ) ,
+                onTap: (){
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("muying")));
+                }),
+            GestureDetector(child:    Container(
               width: 100,
               decoration:BoxDecoration(
                   border:Border(right:BorderSide(color:Colors.grey,width: 1))
@@ -277,7 +287,10 @@ Widget _flexibleSpace(){
                 ],
               ),
             ),
-            Container(
+                onTap: (){
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("gaoyong")));
+                }),
+            GestureDetector(child:   Container(
               width: 100,
               child: Column(
                 children: <Widget>[
@@ -289,6 +302,10 @@ Widget _flexibleSpace(){
                 ],
               ),
             ),
+                onTap: (){
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => new ShopList("dare")));
+                }),
+
 
           ],),
         ),

@@ -8,7 +8,12 @@ class ShopCard extends StatelessWidget {
   int coupon; //优惠券
   double price; //价格
   double disprice; //优惠后的价格
-  ShopCard({this.title,this.sales,this.coupon,this.price,this.disprice,this.image,this.income=0}){
+  String coupon_start_fee;
+  String commission_rate;
+  String coupon_share_url;
+  ShopCard({this.title,this.sales,this.coupon,this.price,this.disprice,this.image,this.income=0,this.coupon_start_fee="",
+    this.commission_rate="",
+  this.coupon_share_url=""}){
 
   }
   @override
@@ -17,7 +22,18 @@ class ShopCard extends StatelessWidget {
     return
       GestureDetector(
         onTap: (){
-          Navigator.push(context,MaterialPageRoute(builder: (context) => new Shop()));
+          Navigator.push(context,MaterialPageRoute(builder: (context) => new Shop(
+          title: this.title,
+          price: this.price,
+          image: this.image,
+          sales: this.sales,
+          coupon: this.coupon,
+          disprice: this.disprice,
+            commission_rate: this.commission_rate,
+            coupon_share_url: this.coupon_share_url,
+              coupon_start_fee: coupon_start_fee,
+
+          )));
         },
     
         child:Card(
@@ -119,7 +135,7 @@ Widget couponIcon(int num){
           alignment: Alignment.center,
           child: Text("${num}元"),
           height: 25,
-          width: 35,
+          width: 45,
           padding: EdgeInsets.only(left: 5),
           decoration: BoxDecoration(border:Border(
             right:BorderSide(width: 0.5,color: Colors.red),

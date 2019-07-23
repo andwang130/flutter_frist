@@ -73,10 +73,19 @@ class _ViewList extends State<ViewList>{
          ShopModel sp=shoplist[index];
          double _disprice=double.parse((sp.zk_final_price-sp.coupon_amount).toStringAsFixed(2));
          double _income=double.parse(((double.parse(sp.commission_rate)/100)*sp.zk_final_price).toStringAsFixed(2));
-         return ShopCard(title:sp.title ,sales:sp.volume,coupon: sp.coupon_amount,
+         String commission_rate= sp.commission_rate.toString();
+
+         return ShopCard(
+             title:sp.title,
+
+           sales:sp.volume,
+           coupon: sp.coupon_amount,
            price: sp.zk_final_price,disprice:_disprice,
            image: sp.pict_url,
-            income:_income,);
+            income:_income,
+           commission_rate:commission_rate,
+           coupon_start_fee: sp.coupon_start_fee,
+             coupon_share_url:sp.coupon_share_url);
        },
 
 
