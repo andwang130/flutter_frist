@@ -136,6 +136,7 @@ void login(BuildContext context)async{
   var response =await dio.post(Host+"/v1/user/login",
       data: {"password":this.pasd,"username":this.user});
 
+    print(response.data);
     Navigator.pop(context);
    Responseinfo responseinfo=Responseinfo.fromJson(response.data);
    switch(responseinfo.code){

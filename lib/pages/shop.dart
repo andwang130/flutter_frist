@@ -151,6 +151,7 @@ class Shop extends StatelessWidget{
             disprice: this.disprice,
             commission_rate:this.commission_rate,
               income: this.income,
+            coupon_share_url: this.coupon_share_url,
           ),));
           },)
       ) ,

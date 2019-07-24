@@ -1,20 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pkg/appbarH35.dart';
 import 'package:flutter/services.dart';
-class Shaer extends StatelessWidget{
+import 'package:dio/dio.dart';
+import 'package:flutter_app/config.dart';
+import 'package:flutter_app/model/loginModel.dart';
+
+class Shaer extends StatefulWidget{
   String commission_rate; //佣金比例
   double price; //价格
   double disprice; //优惠后的价格
   String title; //标题
   String text;
   double income;
-  Shaer({this.commission_rate,this.price,this.disprice,this.title,this.income}){
-    this.text= "${this.title}\n"+
+  String koulin="";
+  String coupon_share_url;
+  Shaer({this.commission_rate,this.price,this.disprice,this.title,this.income,this.coupon_share_url});
+  State<StatefulWidget> createState()=>_Shaer();
+}
+class _Shaer extends State<Shaer>{
+  String commission_rate; //佣金比例
+  double price; //价格
+  double disprice; //优惠后的价格
+  String title; //标题
+  String text="";
+  double income;
+  String koulin="";
+  String coupon_share_url;
+
+  @override
+  void initState(){
+        super.initState();
+        this.coupon_share_url=widget.coupon_share_url;
+        this.price=widget.price;
+        this.disprice=widget.disprice;
+        this.title=widget.title;
+        this.income=widget.income;
+        this.commission_rate=widget.commission_rate;
+        this.text="";
+        this.getkoulin();
+
+  }
+
+  getkoulin()async{
+    Dio dio=Dio();
+
+    Token token=await Token.getInstance();
+    Response response=await dio.post(Host+ "/v1/shop/tkouling",data: {
+      "url":"https:"+this.coupon_share_url,
+      "text":this.title
+    },options:getOptions(token.getToken()) );
+    this.koulin=response.data["Data"]["Model"];
+    this.text="${this.title}\n"+
         "[在售价]${this.price}元\n"+
         "[券后价]${this.disprice}元\n"+
-        "[下单链接]https//m.tb.cn/h.sesese\n"+
         "______________________\n"+
-        "复制这条信息,￥GMDAA4￥，到[手机淘宝]即可查看";
+        "复制这条信息,${this.koulin}，到[手机淘宝]即可查看";
+    this.setState((){});
+
+
   }
   @override
   Widget build(BuildContext context) {
